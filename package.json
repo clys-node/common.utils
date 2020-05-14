@@ -1,7 +1,7 @@
 {
-  "name": "nightnya.common.utils",
+  "name": "nightnya-common-utils",
   "description": "",
-  "version": "1.0.37",
+  "version": "1.0.39",
   "license": "MIT",
   "main": "src/utils/index.js",
   "keywords": [

@@ -1,0 +1,29 @@
+{
+  "name": "nightnya.common.utils",
+  "description": "",
+  "version": "1.0.37",
+  "license": "MIT",
+  "main": "src/utils/index.js",
+  "keywords": [
+    "utils"
+  ],
+  "pushOption": {
+    "main": "index.js"
+  },
+  "scripts": {
+    "init": "yarn",
+    "push": "gulp publish",
+    "build": "gulp build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "del": "^5.1.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-uglify": "^3.0.2",
+    "through2": "^3.0.1"
+  }
+}

@@ -1,4 +1,4 @@
-const Utils = {
+const Other = {
   getUUID(len, radix) {
     let chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
     let uuid = [];
@@ -19,5 +19,19 @@ const Utils = {
     }
     return uuid.join('');
   },
+  verCompared(oVer = '0.0.0', nVer = '0.0.0') {
+    oVer = oVer.split('.');
+    nVer = nVer.split('.');
+    for (let i = 0; i < 3; i++) {
+      let cnv = parseInt(nVer[i] || 0);
+      let cov = parseInt(oVer[i] || 0);
+      if (cnv > cov) {
+        return true;
+      } else if (cnv < cov) {
+        break;
+      }
+    }
+    return false;
+  },
 };
-module.exports = Utils;
+module.exports = Other;

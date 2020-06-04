@@ -1,5 +1,4 @@
 module.exports = {
-  ...require('./Utils'),
   'Cookies': require('./Cookies'),
   'Colors': require('./Colors'),
   'Dates': require('./Dates'),
@@ -10,4 +9,5 @@ module.exports = {
   'Strings': require('./Strings'),
   'Urls': require('./Urls'),
   'Encrypt': require('./Encrypt'),
+  'Other': require('./Other'),
 };

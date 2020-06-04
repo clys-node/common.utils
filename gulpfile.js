@@ -39,9 +39,11 @@ const compile = () =>
     // }))
     // .pipe(uglify())
     .pipe(dest('dist'));
-const copySrc = () =>
-  src('src/**/*')
-    .pipe(dest('dist/src'));
+
+const webpack = async (cb) => {
+  await runCmd('npx', ['webpack', "--mode=production"]);
+  cb();
+};
 
 const package_js_ver = (cb) => {
   let json = JSON.parse(fs.readFileSync('package.json', 'utf8'));
@@ -86,8 +88,8 @@ const publish = async (cb) => {
   cb();
 };
 
-const build = series(del_dist, package_js_ver, package_js, compile);
+const build = series(del_dist, package_js_ver, package_js, compile, webpack);
 
-exports.publish = series(build, copySrc, publish);
+exports.publish = series(build, publish);
 exports.build = build;
 exports.default = build;

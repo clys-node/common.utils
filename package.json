@@ -1,7 +1,7 @@
 {
   "name": "nightnya-common-utils",
   "description": "",
-  "version": "1.2.1",
+  "version": "1.3.1",
   "license": "MIT",
   "main": "src/utils/index.js",
   "url": "https://gitee.com/clys_node/common.utils",

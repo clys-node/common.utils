@@ -9,5 +9,6 @@ module.exports = {
   'Strings': require('./Strings'),
   'Urls': require('./Urls'),
   'Encrypt': require('./Encrypt'),
+  'Nets': require('./Nets'),
   'Other': require('./Other'),
 };

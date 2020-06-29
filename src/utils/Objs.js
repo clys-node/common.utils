@@ -10,7 +10,7 @@ const Objs = {
   },
   getPathVal(obj, path) {
     if (typeof path === "string") {
-      path = path.split(/[.\/>]/);
+      path = path.split(/\?\.|[.\/>]/);
     }
     for (let i = 0, len = path.length; i < len; i++) {
       try {

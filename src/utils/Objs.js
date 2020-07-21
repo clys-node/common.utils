@@ -8,6 +8,9 @@ const Objs = {
   isObject(obj) {
     return this.isNotNull(obj) && obj.constructor === Object;
   },
+  isArray(obj) {
+    return this.isNotNull(obj) && obj.constructor === Array;
+  },
   getPathVal(obj, path) {
     if (typeof path === "string") {
       path = path.split(/\?\.|[.\/>]/);
@@ -32,50 +35,30 @@ const Objs = {
       if (res === false) break;
     }
   },
-  merge(t, s, mergeArray = false) {
-    for (let k in s) {
-      if (!s.hasOwnProperty(k) || typeof s[k] === "undefined" || s[k] === null) continue;
-      let item = s[k];
-      switch (item.constructor) {
-        case Object: {
-          if (t[k] && t[k].constructor === Object) {
-            this.merge(t[k], item, mergeArray);
-          } else {
-            t[k] = item;
-          }
-          break;
+  merge(target, source, mergeArray = false) {
+    for (let key in source) {
+      if (!source.hasOwnProperty(key)) continue;
+      let item = source[key];
+      if (typeof item === "undefined") continue;
+      if (this.isObject(target[key])) {
+        if (!item['_COVER_']) {
+          this .merge(target[key], item, mergeArray);
+        } else {
+          target[key] = {...item};
+          delete target[key]['_COVER_'];
         }
-        case Array: {
-          if (item.length < 1) {
-            break;
-          }
-          if (mergeArray && t[k] && t[k].constructor === Array) {
-            for (let i = 0, len = Math.max(t[k].length, item.length); i < len; i++) {
-              let mt = t[k][i];
-              let it = item[i];
-              if (this.isObject(mt) && this.isObject(it)) {
-                this.merge(mt, it, mergeArray);
-              } else if (this.isNotNull(it)) {
-                t[k][i] = it;
-              }
-            }
-          } else {
-            t[k] = item;
-          }
-          break;
+      } else if (mergeArray && this.isArray(target[key])) {
+        if (item[0] !== '_COVER_') {
+          this.merge(target[key], item, mergeArray);
+        } else {
+          target[key] = [...item];
+          target[key].shift();
         }
-        case String: {
-          if (item.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "").length > 0) {
-            t[k] = item;
-          }
-          break;
-        }
-        default: {
-          t[k] = item;
-        }
+      } else {
+        target[key] = item;
       }
     }
-    return t
+    return target
   }
 };
 module.exports = Objs;

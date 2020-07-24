@@ -1,7 +1,7 @@
 {
   "name": "nightnya-common-utils",
   "description": "",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "license": "MIT",
   "main": "src/utils/index.js",
   "url": "https://github.com/clys-node/common.utils",

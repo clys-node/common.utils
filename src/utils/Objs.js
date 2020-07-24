@@ -36,27 +36,40 @@ const Objs = {
     }
   },
   merge(target, source, mergeArray = false) {
-    for (let key in source) {
+    for (const key in source) {
       if (!source.hasOwnProperty(key)) continue;
-      let item = source[key];
-      if (typeof item === "undefined") continue;
-      if (this.isObject(target[key])) {
-        if (!item['_COVER_']) {
-          this .merge(target[key], item, mergeArray);
+      const sourceItem = source[key];
+
+      if (typeof sourceItem === "undefined") continue;
+
+      if (sourceItem === null) {
+        target[key] = null;
+        continue;
+      }
+
+
+      if (this.isObject(sourceItem) && this.isObject(target[key])) {
+        if (!sourceItem['_COVER_']) {
+          this.merge(target[key], sourceItem, mergeArray);
         } else {
-          target[key] = {...item};
+          target[key] = {...sourceItem};
           delete target[key]['_COVER_'];
         }
-      } else if (mergeArray && this.isArray(target[key])) {
-        if (item[0] !== '_COVER_') {
-          this.merge(target[key], item, mergeArray);
+        continue;
+      }
+
+      if (mergeArray && this.isArray(sourceItem) && this.isArray(target[key])) {
+        if (sourceItem[0] !== '_COVER_') {
+          this.merge(target[key], sourceItem, mergeArray);
         } else {
-          target[key] = [...item];
+          target[key] = [...sourceItem];
           target[key].shift();
         }
-      } else {
-        target[key] = item;
+        continue;
       }
+
+      target[key] = sourceItem;
+
     }
     return target
   }

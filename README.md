@@ -1,2 +1,1 @@
-# sixi-js-common-utils
-
+# nightnya-common-utils

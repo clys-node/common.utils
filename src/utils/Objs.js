@@ -1,3 +1,36 @@
+const toJson = function ({obj, depth = 0, ignoreEmpty = true, otherTypeToString = false, superiors = []}) {
+  if (depth > 99) {
+    console.warn('tooDeep');
+    return undefined;
+  }
+  const type = typeof obj;
+  if (type === "object") {
+    if (obj === null) return obj;
+    if (superiors.includes(obj)) return undefined;
+    depth++;
+    const p = {depth, ignoreEmpty, otherTypeToString, superiors: [...superiors, obj]}
+    if (obj instanceof Array) {
+      const res = [];
+      for (let i = 0; i < obj.length; i++) {
+        let v = toJson({...p, obj: obj[i]});
+        if (!ignoreEmpty || Objs.isNotNull(v)) res.push(v);
+      }
+      return res;
+    } else {
+      const res = {};
+      for (let objKey in obj) {
+        if (obj.hasOwnProperty && !obj.hasOwnProperty(objKey)) continue;
+        let v = toJson({...p, obj: obj[objKey]});
+        if (!ignoreEmpty || Objs.isNotNull(v)) res[objKey] = v;
+      }
+      return res;
+    }
+  } else if (type === "string" || type === "number" || type === "boolean" || type === "undefined") {
+    return obj;
+  } else {
+    return otherTypeToString ? String(obj) : undefined;
+  }
+};
 const Objs = {
   isNull(obj) {
     return typeof obj === "undefined" || obj === null;
@@ -39,15 +72,15 @@ const Objs = {
     for (const key in source) {
       if (!source.hasOwnProperty(key)) continue;
       const sourceItem = source[key];
-
+      
       if (typeof sourceItem === "undefined") continue;
-
+      
       if (sourceItem === null) {
         target[key] = null;
         continue;
       }
-
-
+      
+      
       if (this.isObject(sourceItem) && this.isObject(target[key])) {
         if (!sourceItem['_COVER_']) {
           this.merge(target[key], sourceItem, mergeArray);
@@ -57,7 +90,7 @@ const Objs = {
         }
         continue;
       }
-
+      
       if (mergeArray && this.isArray(sourceItem) && this.isArray(target[key])) {
         if (sourceItem[0] !== '_COVER_') {
           this.merge(target[key], sourceItem, mergeArray);
@@ -67,11 +100,16 @@ const Objs = {
         }
         continue;
       }
-
+      
       target[key] = sourceItem;
-
+      
     }
     return target
+  },
+  toJson({obj, ignoreEmpty, otherTypeToString}) {
+    if (typeof obj === "string") return JSON.parse(obj);
+    if (typeof obj !== "object") return null;
+    return toJson(arguments[0]);
   }
 };
 module.exports = Objs;

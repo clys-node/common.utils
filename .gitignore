@@ -45,4 +45,6 @@ application-local.js
 
 # dev runtime files
 dist
+lib
+es
 yarn.lock

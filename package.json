@@ -1,16 +1,19 @@
 {
   "name": "nightnya-common-utils",
   "description": "",
-  "version": "1.3.6",
+  "version": "2.0.6",
   "license": "MIT",
-  "main": "src/utils/index.js",
+  "main": "lib/index.js",
+  "module": "es/index.js",
   "url": "https://github.com/clys-node/common.utils",
   "keywords": [
     "utils"
   ],
-  "pushOption": {
-    "main": "index.js"
-  },
+  "files": [
+    "dist",
+    "es",
+    "lib"
+  ],
   "scripts": {
     "init": "yarn",
     "push": "gulp publish",

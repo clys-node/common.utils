@@ -1,11 +1,7 @@
 const {src, dest, series} = require('gulp');
 const babel = require('gulp-babel');
-const uglify = require('gulp-uglify');
-const rename = require("gulp-rename");
-const through2 = require('through2');
 const del = require('del');
 const {spawn} = require('child_process');
-const fs = require('fs');
 const isWin = process.platform === 'win32';
 const spawnOptions = {};
 if (isWin) {
@@ -34,14 +30,14 @@ const runCmd = (cmd, param, options = {}) => {
 
 const copyEs = () =>
   src('src/utils/*.js')
-  .pipe(dest('es'));
+    .pipe(dest('es'));
 
 const compileLib = () =>
   src('src/utils/*.js')
-  .pipe(babel({
-    presets: ['@babel/env']
-  }))
-  .pipe(dest('lib'));
+    .pipe(babel({
+      presets: ['@babel/env']
+    }))
+    .pipe(dest('lib'));
 
 const webpack = async (cb) => {
   await runCmd('npx', ['webpack', "--mode=production"]);

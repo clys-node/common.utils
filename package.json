@@ -1,11 +1,14 @@
 {
   "name": "nightnya-common-utils",
   "description": "",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.js",
   "url": "https://github.com/clys-node/common.utils",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "keywords": [
     "utils"
   ],

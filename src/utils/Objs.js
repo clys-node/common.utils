@@ -80,22 +80,22 @@ const Objs = {
         continue;
       }
       
-      
-      if (this.isObject(sourceItem) && this.isObject(target[key])) {
-        if (!sourceItem['_COVER_']) {
-          this.merge(target[key], sourceItem, mergeArray);
-        } else {
-          target[key] = {...sourceItem};
-          delete target[key]['_COVER_'];
+      if (sourceItem.constructor === Object) {
+        if (sourceItem['_COVER_'] || !this.isObject(target[key])) {
+          target[key] = {};
         }
+        this.merge(target[key], sourceItem, mergeArray);
+        delete target[key]['_COVER_'];
         continue;
       }
       
-      if (mergeArray && this.isArray(sourceItem) && this.isArray(target[key])) {
-        if (sourceItem[0] !== '_COVER_') {
-          this.merge(target[key], sourceItem, mergeArray);
-        } else {
-          target[key] = [...sourceItem];
+      if (sourceItem.constructor === Array) {
+        const cover = sourceItem[0] === '_COVER_';
+        if (cover || !this.isArray(target[key])) {
+          target[key] = [];
+        }
+        this.merge(target[key], sourceItem, mergeArray);
+        if (cover) {
           target[key].shift();
         }
         continue;

@@ -88,10 +88,10 @@ const Encrypt = {
     /**
      *
      * @param {string | BinaryLike} data
-     * @param {Utf8AsciiLatin1Encoding} inputEncoding
+     * @param {Utf8AsciiLatin1Encoding | undefined} inputEncoding
      * @param {'buffer' | HexBase64Latin1Encoding} encoding
      */
-    sha512({data, inputEncoding = 'utf8', encoding = 'hex'}) {
+    sha512({data, inputEncoding, encoding = 'hex'}) {
       const hash = Crypto.createHash('sha512');
       hash.update(data, inputEncoding);
       return encoding === 'buffer' ? hash.digest() : hash.digest(encoding);

@@ -23,7 +23,7 @@ const binString2buf = function (str) {
 };
 
 
-const CompressionBase = {
+const Compression = {
   buf2binString,
   binString2buf,
   compression: (data) => zlib.deflateSync(data),
@@ -31,7 +31,7 @@ const CompressionBase = {
   compressionString: (text) => buf2binString(zlib.deflateSync(text)),
   decompressionString: (binaryString, encoding = 'utf8') =>
     Buffer.from(zlib.inflateSync(binString2buf(binaryString))).toString(encoding),
-  json: (json) => CompressionBase.compressionString(JSON.stringify(json)),
-  unJson: (binaryString) => JSON.parse(CompressionBase.decompressionString(binaryString))
+  json: (json) => Compression.compressionString(JSON.stringify(json)),
+  unJson: (binaryString) => JSON.parse(Compression.decompressionString(binaryString))
 };
-module.exports = CompressionBase;
+module.exports = Compression;

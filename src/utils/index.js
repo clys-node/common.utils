@@ -8,6 +8,7 @@ module.exports = {
   'Objs': require('./Objs'),
   'Strings': require('./Strings'),
   'Urls': require('./Urls'),
+  'Compression': require('./Compression'),
   'Encrypt': require('./Encrypt'),
   'Nets': require('./Nets'),
   'Other': require('./Other'),

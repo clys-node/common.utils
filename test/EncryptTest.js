@@ -19,3 +19,9 @@ console.log();
 console.log('e', e);
 console.log('t', t);
 console.log(txt === t);
+
+
+const sha512 = Encrypt.hash.sha512({data: txt})
+console.log();
+console.log(sha512);
+console.log(sha512 === 'b9829d8a6f778776f25adab67c1273052275ef16d3310b4a35b296c453bf100656498d2b59f727b49e62bbafdbaf66663b34425d69502c7678eac464152cb0cb');

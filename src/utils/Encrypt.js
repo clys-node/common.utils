@@ -16,12 +16,12 @@ const Encrypt = {
     cbc: {
       /**
        *
-       * @param data {string | NodeJS.ArrayBufferView}
-       * @param key {string}
-       * @param iv {string}
-       * @param inputEncoding  {"utf8" | "ascii" | "binary"}
-       * @param outputEncoding {"binary" | "base64" | "hex" | "buffer"}
-       * @param compression {boolean}
+       * @param {string | BinaryLike | InputType} data
+       * @param {string} key
+       * @param {string} iv
+       * @param {Utf8AsciiBinaryEncoding} inputEncoding
+       * @param {HexBase64BinaryEncoding | "buffer"} outputEncoding
+       * @param {boolean} compression
        * @return {string | Buffer}
        */
       en({data, key, iv, inputEncoding = 'utf8', outputEncoding = 'base64', compression = false}) {
@@ -46,15 +46,16 @@ const Encrypt = {
           return cipher.update(d, inputEncoding, outputEncoding) + cipher.final(outputEncoding);
         }
       },
+      
       /**
        *
        * @param data {string | NodeJS.ArrayBufferView}
        * @param key {string}
        * @param iv {string}
-       * @param inputEncoding {"binary" | "base64" | "hex"}
+       * @param inputEncoding {HexBase64BinaryEncoding}
        * @param outputEncoding {"buffer" | "binary" | BufferEncoding}
        * @param decompression {boolean}
-       * @returns {string|Buffer}
+       * @returns {string | Buffer}
        */
       de({data, key, iv, inputEncoding = 'base64', outputEncoding = 'utf8', decompression = false}) {
         if (typeof data !== "string") {
@@ -83,5 +84,18 @@ const Encrypt = {
       },
     }
   },
+  hash: {
+    /**
+     *
+     * @param {string | BinaryLike} data
+     * @param {Utf8AsciiLatin1Encoding} inputEncoding
+     * @param {'buffer' | HexBase64Latin1Encoding} encoding
+     */
+    sha512({data, inputEncoding = 'utf8', encoding = 'hex'}) {
+      const hash = Crypto.createHash('sha512');
+      hash.update(data, inputEncoding);
+      return encoding === 'buffer' ? hash.digest() : hash.digest(encoding);
+    }
+  }
 };
 module.exports = Encrypt;

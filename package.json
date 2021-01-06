@@ -1,7 +1,7 @@
 {
   "name": "nightnya-common-utils",
   "description": "",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.js",

@@ -84,17 +84,21 @@ const Encrypt = {
       },
     }
   },
+  /**
+   *
+   * @param {string} algorithm
+   * @param {string | BinaryLike} data
+   * @param {Utf8AsciiLatin1Encoding | undefined} inputEncoding
+   * @param {'buffer' | HexBase64Latin1Encoding} encoding
+   */
+  computeHash({algorithm, data, inputEncoding, encoding = 'hex'}) {
+    const hash = Crypto.createHash(algorithm);
+    hash.update(data, inputEncoding);
+    return encoding === 'buffer' ? hash.digest() : hash.digest(encoding);
+  },
   hash: {
-    /**
-     *
-     * @param {string | BinaryLike} data
-     * @param {Utf8AsciiLatin1Encoding | undefined} inputEncoding
-     * @param {'buffer' | HexBase64Latin1Encoding} encoding
-     */
     sha512({data, inputEncoding, encoding = 'hex'}) {
-      const hash = Crypto.createHash('sha512');
-      hash.update(data, inputEncoding);
-      return encoding === 'buffer' ? hash.digest() : hash.digest(encoding);
+      return Encrypt.computeHash({algorithm: 'sha512', data, inputEncoding, encoding})
     }
   }
 };

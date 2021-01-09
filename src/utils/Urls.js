@@ -2,18 +2,23 @@ const Strings = require('./Strings');
 const Maps = require('./Maps');
 const Urls = {
   build(url, param) {
-    let parStr = "";
     if (param) {
-      const type = typeof param;
-      if (type === "string") {
-        parStr = param;
-      } else if (type === "object") {
-        parStr = this.mapToParamString(param);
+      let parStr = "";
+      switch (typeof param) {
+        case "string": {
+          parStr = param;
+          break;
+        }
+        case "object": {
+          parStr = this.mapToParamString(param);
+          break;
+        }
       }
-      parStr = (url.indexOf('?') === -1 ? "?" : "&") + parStr;
-
+      if (Strings.isNotBlank(parStr)) {
+        url = url + (url.indexOf('?') === -1 ? "?" : "&") + parStr;
+      }
     }
-    return (url + parStr).replace(/\/+/g, function (v, i, s) {
+    return (url).replace(/\/+/g, function (v, i, s) {
       if (i === 0) return '/';
       if (s[i - 1] === ':') return v;
       return '/';

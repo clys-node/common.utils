@@ -19,7 +19,7 @@ const toJson = function ({obj, depth = 0, ignoreEmpty = true, otherTypeToString 
     } else {
       const res = {};
       for (let objKey in obj) {
-        if (obj.hasOwnProperty && !obj.hasOwnProperty(objKey)) continue;
+        if (!obj.hasOwnProperty(objKey)) continue;
         let v = toJson({...p, obj: obj[objKey]});
         if (!ignoreEmpty || Objs.isNotNull(v)) res[objKey] = v;
       }
@@ -67,6 +67,20 @@ const Objs = {
       const res = fn(obj[key], key);
       if (res === false) break;
     }
+  },
+  /**
+   *
+   * @param {[]} heaps
+   * @param {{mergeArray:boolean=false}} options
+   */
+  converge(heaps, options = {}) {
+    if (!(heaps instanceof Array)) return;
+    const singularPoint = heaps[0];
+    if (heaps.length === 1) return singularPoint;
+    for (let i = 1; i < heaps.length; i++) {
+      Objs.merge(singularPoint, heaps[i], options.mergeArray);
+    }
+    return singularPoint;
   },
   merge(target, source, mergeArray = false) {
     for (const key in source) {

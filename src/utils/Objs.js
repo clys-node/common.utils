@@ -16,7 +16,7 @@ const toJson = function ({obj, depth = 0, ignoreEmpty = true, otherTypeToString 
         if (!ignoreEmpty || Objs.isNotNull(v)) res.push(v);
       }
       return res;
-    } else {
+    } else if (obj instanceof Object) {
       const res = {};
       for (let objKey in obj) {
         if (!obj.hasOwnProperty(objKey)) continue;
@@ -24,6 +24,8 @@ const toJson = function ({obj, depth = 0, ignoreEmpty = true, otherTypeToString 
         if (!ignoreEmpty || Objs.isNotNull(v)) res[objKey] = v;
       }
       return res;
+    } else {
+      return undefined;
     }
   } else if (type === "string" || type === "number" || type === "boolean" || type === "undefined") {
     return obj;

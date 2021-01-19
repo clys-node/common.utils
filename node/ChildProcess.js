@@ -4,9 +4,10 @@ const ChildProcess = {
   /**
    *
    * @param {string} cmd
-   * @param options
+   * @param {SpawnOptionsWithoutStdio} options
+   * @return {Promise<number>}
    */
-  runCmd(cmd, options) {
+  runCmd(cmd, options = {}) {
     return new Promise((resolve, reject) => {
       const params = cmd.replace(/\s/g, ' ').split(' ');
       let cmdProcess = Spawn(params.shift(), params, {

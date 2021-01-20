@@ -1,4 +1,6 @@
-const toJson = function ({obj, depth = 0, ignoreEmpty = true, otherTypeToString = false, superiors = []}) {
+const toJson = function (
+  {obj, depth = 0, ignoreEmpty = true, otherTypeToString = false, freeze = false, superiors = []}
+) {
   if (depth > 99) {
     console.warn('tooDeep');
     return undefined;
@@ -8,12 +10,15 @@ const toJson = function ({obj, depth = 0, ignoreEmpty = true, otherTypeToString 
     if (obj === null) return obj;
     if (superiors.includes(obj)) return undefined;
     depth++;
-    const p = {depth, ignoreEmpty, otherTypeToString, superiors: [...superiors, obj]}
+    const p = {depth, ignoreEmpty, otherTypeToString, freeze, superiors: [...superiors, obj]}
     if (obj instanceof Array) {
       const res = [];
       for (let i = 0; i < obj.length; i++) {
         let v = toJson({...p, obj: obj[i]});
         if (!ignoreEmpty || Objs.isNotNull(v)) res.push(v);
+      }
+      if (freeze) {
+        Object.freeze(res);
       }
       return res;
     } else if (obj instanceof Object) {
@@ -22,6 +27,9 @@ const toJson = function ({obj, depth = 0, ignoreEmpty = true, otherTypeToString 
         if (!obj.hasOwnProperty(objKey)) continue;
         let v = toJson({...p, obj: obj[objKey]});
         if (!ignoreEmpty || Objs.isNotNull(v)) res[objKey] = v;
+      }
+      if (freeze) {
+        Object.freeze(res);
       }
       return res;
     } else {
@@ -122,7 +130,7 @@ const Objs = {
     }
     return target
   },
-  toJson({obj, ignoreEmpty, otherTypeToString}) {
+  toJson({obj, ignoreEmpty, otherTypeToString, freeze}) {
     if (typeof obj === "string") return JSON.parse(obj);
     if (typeof obj !== "object") return null;
     return toJson(arguments[0]);

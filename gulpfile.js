@@ -17,7 +17,7 @@ const runCmd = (cmd, param, options = {}) => {
     cmdProcess.stderr.on('data', function (data) {
       process.stderr.write(data)
     });
-    
+
     cmdProcess.on('close', (code) => {
       if (code === 0) {
         resolve();
@@ -30,14 +30,17 @@ const runCmd = (cmd, param, options = {}) => {
 
 const copyEs = () =>
   src('src/utils/*.js')
-    .pipe(dest('es'));
+  .pipe(babel({
+    presets: ['@babel/env']
+  }))
+  .pipe(dest('es'));
 
 const compileLib = () =>
   src('src/utils/*.js')
-    .pipe(babel({
-      presets: ['@babel/env']
-    }))
-    .pipe(dest('lib'));
+  .pipe(babel({
+    presets: ['@babel/env']
+  }))
+  .pipe(dest('lib'));
 
 const webpack = async (cb) => {
   await runCmd('npx', ['webpack', "--mode=production"]);

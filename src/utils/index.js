@@ -11,5 +11,6 @@ module.exports = {
   'Compression': require('./Compression'),
   'Encrypt': require('./Encrypt'),
   'Nets': require('./Nets'),
+  'Documents': require('./Documents'),
   'Other': require('./Other'),
 };

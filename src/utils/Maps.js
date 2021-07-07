@@ -31,7 +31,7 @@ const Maps = {
     }
     return list;
   },
-  listToMap(list, key) {
+  listToMaps(list, key) {
     if (Objs.isNull(list) || Strings.isEmpty(key)) {
       return null;
     }

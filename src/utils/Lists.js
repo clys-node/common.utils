@@ -1,4 +1,5 @@
 const Objs = require('./Objs');
+const Maps = require('./Maps');
 
 const Lists = {
   /**
@@ -25,6 +26,36 @@ const Lists = {
    */
   includesAll(whole = [], part = []) {
     return part.every((v) => whole.includes(v));
+  },
+  /**
+   *
+   * @param {{}} maps
+   * @param {String} keyName
+   * @param {Function} sortFn
+   */
+  mapToList({map, keyName, sortFn}) {
+    const list = [];
+    if (typeof sortFn === "function") {
+      let keys = Maps.keys(map);
+      keys.sort((a, b) => sortFn(map[a], map[b], a, b));
+      keys.forEach(k => {
+        const v = map[k];
+        if (keyName) {
+          v[keyName] = k
+        }
+        list.push(v)
+      })
+      return list;
+    }
+    for (let k in map) {
+      if (!map.hasOwnProperty(k)) continue
+      const v = map[k];
+      if (keyName) {
+        v[keyName] = k
+      }
+      list.push(v)
+    }
+    return list
   }
 };
 

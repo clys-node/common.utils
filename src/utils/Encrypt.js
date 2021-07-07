@@ -46,15 +46,15 @@ const Encrypt = {
           return cipher.update(d, inputEncoding, outputEncoding) + cipher.final(outputEncoding);
         }
       },
-      
+
       /**
        *
-       * @param data {string | NodeJS.ArrayBufferView}
-       * @param key {string}
-       * @param iv {string}
-       * @param inputEncoding {HexBase64BinaryEncoding}
-       * @param outputEncoding {"buffer" | "binary" | BufferEncoding}
-       * @param decompression {boolean}
+       * @param {string | NodeJS.ArrayBufferView} data
+       * @param {string} key
+       * @param {string} iv
+       * @param {HexBase64BinaryEncoding} inputEncoding
+       * @param {"buffer" | "binary" | BufferEncoding} outputEncoding
+       * @param {boolean} decompression
        * @returns {string | Buffer}
        */
       de({data, key, iv, inputEncoding = 'base64', outputEncoding = 'utf8', decompression = false}) {

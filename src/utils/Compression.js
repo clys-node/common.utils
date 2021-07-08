@@ -1,4 +1,5 @@
 const zlib = require('zlib');
+const Buffer = require('buffer').Buffer;
 const Compression = {
   /**
    *
@@ -20,18 +21,6 @@ const Compression = {
   },
   /**
    *
-   * @param {string} str
-   * @return {Uint8Array}
-   */
-  binString2buf(str) {
-    const buf = new Uint8Array(str.length);
-    for (let i = 0, len = buf.length; i < len; i++) {
-      buf[i] = str.charCodeAt(i);
-    }
-    return buf;
-  },
-  /**
-   *
    * @param {InputType} data
    * @return {Buffer}
    */
@@ -47,7 +36,7 @@ const Compression = {
    * @param {string} text
    * @return {string}
    */
-  compressionString: (text) => Compression.buf2binString(zlib.deflateSync(text)),
+  compressionString: (text) => zlib.deflateSync(text).toString("binary"),
   /**
    *
    * @param {string} binaryString
@@ -55,7 +44,7 @@ const Compression = {
    * @return {string}
    */
   decompressionString: (binaryString, encoding = 'utf8') =>
-    Buffer.from(zlib.inflateSync(Compression.binString2buf(binaryString))).toString(encoding),
+    Buffer.from(zlib.inflateSync(Buffer.from(binaryString, "binary"))).toString(encoding),
   /**
    *
    * @param {any} json
